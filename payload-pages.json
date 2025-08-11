@@ -1,0 +1,44 @@
+{
+  "mutations": [
+    {
+      "createOrReplace": {
+        "_id": "page-about",
+        "_type": "page",
+        "title": "About Us",
+        "slug": { "_type": "slug", "current": "about" },
+        "body": [
+          {
+            "_type": "block",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "text": "About us content goes here. Replace this with your actual content from the Sanity Studio."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "createOrReplace": {
+        "_id": "page-careers",
+        "_type": "page",
+        "title": "Careers",
+        "slug": { "_type": "slug", "current": "careers" },
+        "body": [
+          {
+            "_type": "block",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "text": "Careers content goes here. Replace this with your actual content from the Sanity Studio."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
