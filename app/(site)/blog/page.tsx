@@ -1,10 +1,27 @@
 import BlogSection from "@/components/blog-section"
+import { client } from "@/lib/sanity"
 
 export const metadata = {
   title: "Blog — Latest Insights & Market Updates | CRES.PH",
 }
 
-export default function BlogPage() {
+export const revalidate = 60 // revalidate this page every 60 seconds
+
+async function getPosts() {
+  const query = `*[_type == "post"] | order(publishedAt desc) {
+    _id,
+    title,
+    slug,
+    excerpt,
+    publishedAt
+  }`
+  const data = await client.fetch(query)
+  return data
+}
+
+export default async function BlogPage() {
+  const posts = await getPosts()
+
   return (
     <div className="w-full">
       <section className="container mx-auto px-4 py-12">
@@ -13,7 +30,7 @@ export default function BlogPage() {
           Ideas, playbooks, and research on real estate technology, marketing, and analytics.
         </p>
       </section>
-      <BlogSection />
+      <BlogSection posts={posts} />
     </div>
   )
 }

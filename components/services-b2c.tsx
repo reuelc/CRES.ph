@@ -1,44 +1,15 @@
 import { ClipboardList, FileText, Home } from 'lucide-react'
 import { Card, CardContent } from "@/components/ui/card"
 import FadeIn from "./fade-in"
+import { urlFor } from '@/lib/sanity-image'
 
-type Item = {
-  icon: React.ComponentType<{ className?: string }>
-  title: string
-  bullets: string[]
-  imgSrc: string
+const icons: { [key: string]: React.ComponentType<any> } = {
+  ClipboardList,
+  FileText,
+  Home,
 }
 
-const items: Item[] = [
-  {
-    icon: ClipboardList,
-    title: "Documentation Processing",
-    bullets: [
-      "Title verification and validation",
-      "Document preparation and review",
-      "Transfer processing assistance",
-      "Legal compliance checking",
-      "Workflow optimization & records",
-      "Coordination with agencies",
-      "Digital document processing",
-    ],
-    imgSrc: "/placeholder.svg?height=140&width=560",
-  },
-  {
-    icon: FileText,
-    title: "Appraisal Services",
-    bullets: [
-      "Residential, Commercial, Office, Industrial",
-      "Market value assessment",
-      "Investment analysis",
-      "Insurance and tax reports",
-      "Due diligence valuations",
-    ],
-    imgSrc: "/placeholder.svg?height=140&width=560",
-  },
-]
-
-export default function ServicesB2C() {
+export default function ServicesB2C({ data }: { data: any }) {
   return (
     <section id="services-b2c" className="relative overflow-hidden">
       {/* Warm, welcoming background (soft greens + warm blues, gentle gradients) */}
@@ -58,25 +29,22 @@ export default function ServicesB2C() {
 
       <div className="relative container mx-auto px-4 py-20">
         <FadeIn className="max-w-4xl">
-          <p className="text-emerald-700 font-semibold tracking-tight">For Property Owners & Buyers</p>
+          <p className="text-emerald-700 font-semibold tracking-tight">{data.title}</p>
           <h2 className="mt-2 text-3xl font-extrabold tracking-tight">
-            Complete Real Estate Solutions
+            {data.subtitle}
           </h2>
-          <p className="mt-4 text-slate-600 text-lg">
-            Friendly, reliable services that simplify every step of your property journey.
-          </p>
         </FadeIn>
 
         <FadeIn delay={120} className="mt-12 grid md:grid-cols-2 gap-6">
-          {items.map((it, i) => {
-            const Icon = it.icon || Home
+          {data.services.map((it: any, i: number) => {
+            const Icon = icons[it.icon] || Home
             return (
               <Card key={i} className="overflow-hidden transition transform hover:shadow-lg hover:-translate-y-0.5">
                 {/* Colored header with title inside (soft greens) */}
                 <div className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
                   <div className="flex items-center gap-3 px-5 py-4">
                     <div className="p-2 rounded-md bg-white/10 ring-1 ring-white/20">
-                      <Icon className="text-white" />
+                      {Icon && <Icon className="text-white" />}
                     </div>
                     <h3 className="text-base font-semibold tracking-tight leading-none">
                       {it.title}
@@ -85,13 +53,15 @@ export default function ServicesB2C() {
                 </div>
 
                 <CardContent className="text-sm text-slate-700 pt-4">
-                  <img
-                    src={it.imgSrc || "/placeholder.svg"}
-                    alt={`${it.title} illustration`}
-                    className="w-full h-36 object-cover rounded-lg border mb-3"
-                  />
+                  {it.image && (
+                    <img
+                      src={urlFor(it.image).width(560).height(140).url()}
+                      alt={`${it.title} illustration`}
+                      className="w-full h-36 object-cover rounded-lg border mb-3"
+                    />
+                  )}
                   <ul className="list-disc pl-5 space-y-1">
-                    {it.bullets.map((b, idx) => (
+                    {it.bullets.map((b: string, idx: number) => (
                       <li key={idx}>{b}</li>
                     ))}
                   </ul>
